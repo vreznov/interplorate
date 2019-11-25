@@ -17,16 +17,16 @@ class KTarget:
         self.t = ft
 
 if __name__ == '__main__':
-    targets = [KTarget(100, 0, 1000)
-               , KTarget(200, 0, 2000)
+    targets = [KTarget(100, 0.1, 1000)
+               , KTarget(200, 0.1, 2000)
                , KTarget(500, 0, 4000)
-               , KTarget(300, 0, 6000)
+               , KTarget(300, -0.1, 6000)
                , KTarget(100, 0, 8000)]
     show_t = []
     show_target = []
     show_vel = []
     show_acc = []
-    curTarget = KTarget(2513, 0, 0)
+    curTarget = KTarget(0, 0, 0)
     # a = np.zeros((5, len(targets)))
     a = np.zeros(5)
     i = 0
