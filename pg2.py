@@ -13,9 +13,9 @@ targets = []  #mm
 endVels = []  #mm/ms
 time_squence = []  #ms
 time_interval = 10  #ms 0-使用time_squence给定的时间间隔 other：使用时间间隔等于time_interval
-autoVel = False  # 是否自动计算速度
+autoVel = True  # 是否自动计算速度
 
-curTarget = 100
+curTarget = 0  # 初始值，用于作为计算的第一个目标值
 curVel = 0
 curTime = 0
 vnext = 0 # 下一段运动的均速
@@ -38,6 +38,11 @@ if __name__ == '__main__':
 	# 初始化数据
     targets = np.random.randint(0, 1000, size=(1,10))[0]
     time_squence = np.random.randint(8, 100, size=(1,10))[0]
+    
+    # 以下两行测试使用
+    targets = [100, 2000, 3000, 5000, 3000, 1000, 0]
+    time_squence = [1000, 1000, 1000, 1000, 1000, 1000, 1000]
+    
     endVels = np.zeros((1,10))[0]
     #show_t.append(0)
     print(targets)
@@ -80,7 +85,8 @@ if __name__ == '__main__':
             endTrue = True
         else:
             endTrue = False
-        tspan = np.linspace(0, diffT, 11, endpoint= endTrue)
+        # tspan = np.linspace(0, diffT, 11, endpoint= endTrue)  # 定点插值
+        tspan = np.linspace(0, diffT, 100, endpoint= endTrue)
         pnt = a[0] + a[1] * tspan + a[2] * pow(tspan, 2) + a[3] * pow(tspan, 3)
         vel = a[1] + 2 * a[2] * tspan + 3 * a[3] * pow(tspan, 2)
         acc = 2 * a[2] + 6 * a[3] * tspan
@@ -109,6 +115,15 @@ if __name__ == '__main__':
             xval = diffT*i
     else:
         xval = curTime + time_squence[i]
+        
+    try:
+        fh = open('path.txt', mode = 'w')
+        for pos in show_target:
+            fh.write( '1,%f\n' % (pos))
+        fh.close()
+    except Exception as ex:
+        print('写文件错误', ex)
+        
     plt.plot(xval, curTarget, 'ro')
     plt.plot(show_t, show_target, 'b-', label='pos')
     plt.plot(show_t, show_vel, label='vel')
@@ -116,8 +131,3 @@ if __name__ == '__main__':
     plt.legend()
     plt.grid(True)
     plt.show()
-        
-        
-	
-    # input('\r\n Press Enter to quit \r\n')
-	
